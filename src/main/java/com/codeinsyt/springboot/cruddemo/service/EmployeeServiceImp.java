@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.codeinsyt.springboot.cruddemo.dao.employeeRepository;
 import com.codeinsyt.springboot.cruddemo.dao.EmployeeRepository;
 import com.codeinsyt.springboot.cruddemo.entity.Employee;
 
@@ -17,7 +15,7 @@ public class EmployeeServiceImp implements EmployeeService {
 	private EmployeeRepository employeeRepository;
 	
 	@Autowired
-	public EmployeeServiceImp(@Qualifier("employeeRepositoryJPAImpl")employeeRepository employeeRepository) {
+	public EmployeeServiceImp(EmployeeRepository employeeRepository) {
 		this.employeeRepository = employeeRepository;
 	}
 	
@@ -36,6 +34,8 @@ public class EmployeeServiceImp implements EmployeeService {
 		
 		if(result.isPresent()) {
 			theEmployee = result.get();
+		}else {
+			throw new RuntimeException("Employee not found");
 		}
 		
 		return theEmployee;
